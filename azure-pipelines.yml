@@ -24,6 +24,10 @@ stages:
         provider: 'azurerm'
         command: 'init'
         backendServiceArm: 'AzureServiceConnection'
+        backendAzureRmResourceGroupName: 'demo-resources'
+        backendAzureRmStorageAccountName: 'demostorageaccount197368'
+        backendAzureRmContainerName: 'prod-tfstate'
+        backendAzureRmKey: 'prod.terraform.tfstate'
       
     - task: TerraformTask@5
       displayName: Tf fmt
