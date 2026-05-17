@@ -18,7 +18,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          backendServiceArm: 'Azure for Students(276a1e48-6616-4de1-b20c-1c2114c67783)'
+          backendServiceArm: 'AzureServiceConnection'
       
       - task: TerraformTask@5
         displayName: Tf fmt
@@ -27,7 +27,7 @@ stages:
           command: 'custom'
           outputTo: 'console'
           customCommand: 'fmt'
-          environmentServiceNameAzureRM: 'Azure for Students(276a1e48-6616-4de1-b20c-1c2114c67783)'
+          environmentServiceNameAzureRM: 'AzureServiceConnection'
 
       - task: TerraformTask@5
         displayName: Tf validate
@@ -44,9 +44,9 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'plan'
+          environmentServiceNameAzureRM: 'AzureServiceConnection'
           commandOptions: 'out $(Build.SourcesDirectory)/tfplanfile'
-          environmentServiceNameAzureRM: 'Azure for Students(276a1e48-6616-4de1-b20c-1c2114c67783)'
-
+          
       - task: ArchiveFiles@2
         displayName: Archive files
         inputs:
