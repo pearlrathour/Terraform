@@ -13,6 +13,10 @@ stages:
     pool: 
       vmImage: 'ubuntu-latest'
       steps:
+
+      - script: echo "Hello from DevOps"
+        displayName: Test step
+
       - task: TerraformTask@5
         displayName: Tf init
         inputs:
