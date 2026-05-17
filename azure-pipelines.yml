@@ -13,59 +13,56 @@ stages:
     pool: 
       vmImage: 'ubuntu-latest'
     steps:
-    - script: echo "Hello from DevOps"
-      displayName: Test step
-
-      # - task: TerraformTask@5
-      #   displayName: Tf init
-      #   inputs:
-      #     provider: 'azurerm'
-      #     command: 'init'
-      #     backendServiceArm: 'AzureServiceConnection'
-      #     backendAzureRmResourceGroupName: 'demo-resources'
-      #     backendAzureRmStorageAccountName: 'demostorageaccount197368'
-      #     backendAzureRmContainerName: 'prod-tfstate'
-      #     backendAzureRmKey: 'prod.terraform.tfstate'
+    - task: TerraformTask@5
+      displayName: Tf init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'AzureServiceConnection'
+        backendAzureRmResourceGroupName: 'demo-resources'
+        backendAzureRmStorageAccountName: 'demostorageaccount197368'
+        backendAzureRmContainerName: 'prod-tfstate'
+        backendAzureRmKey: 'prod.terraform.tfstate'
       
-      # - task: TerraformTask@5
-      #   displayName: Tf fmt
-      #   inputs:
-      #     provider: 'azurerm'
-      #     command: 'custom'
-      #     outputTo: 'console'
-      #     customCommand: 'fmt'
-      #     environmentServiceNameAzureRM: 'AzureServiceConnection'
+    - task: TerraformTask@5
+      displayName: Tf fmt
+      inputs:
+        provider: 'azurerm'
+        command: 'custom'
+        outputTo: 'console'
+        customCommand: 'fmt'
+        environmentServiceNameAzureRM: 'AzureServiceConnection'
 
-      # - task: TerraformTask@5
-      #   displayName: Tf validate
-      #   inputs:
-      #     provider: 'azurerm'
-      #     command: 'validate'
-      #     backendAzureRmResourceGroupName: 'demo-resources'
-      #     backendAzureRmStorageAccountName: 'demostorageaccount197368'
-      #     backendAzureRmContainerName: 'prod-tfstate'
-      #     backendAzureRmKey: 'prod.terraform.tfstate'
+    - task: TerraformTask@5
+      displayName: Tf validate
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        backendAzureRmResourceGroupName: 'demo-resources'
+        backendAzureRmStorageAccountName: 'demostorageaccount197368'
+        backendAzureRmContainerName: 'prod-tfstate'
+        backendAzureRmKey: 'prod.terraform.tfstate'
 
-      # - task: TerraformTask@5
-      #   displayName: Tf plan
-      #   inputs:
-      #     provider: 'azurerm'
-      #     command: 'plan'
-      #     environmentServiceNameAzureRM: 'AzureServiceConnection'
-      #     commandOptions: 'out $(Build.SourcesDirectory)/tfplanfile'
+    - task: TerraformTask@5
+      displayName: Tf plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        environmentServiceNameAzureRM: 'AzureServiceConnection'
+        commandOptions: 'out $(Build.SourcesDirectory)/tfplanfile'
           
-      # - task: ArchiveFiles@2
-      #   displayName: Archive files
-      #   inputs:
-      #     rootFolderOrFile: '$(Build.SourcesDirectory)'
-      #     includeRootFolder: true
-      #     archiveType: 'zip'
-      #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      #     replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: Archive files
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        replaceExistingArchive: true
 
-      # - task: PublishBuildArtifacts@1
-      #   displayName: Publish build artifact
-      #   inputs:
-      #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      #     ArtifactName: '$(Build.BuildId)-build'
-      #     publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      displayName: Publish build artifact
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: '$(Build.BuildId)-build'
+        publishLocation: 'Container'
