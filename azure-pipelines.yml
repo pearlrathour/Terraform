@@ -54,7 +54,7 @@ stages:
         provider: 'azurerm'
         command: 'plan'
         environmentServiceNameAzureRM: 'AzureServiceConnection'
-        commandOptions: '-out=$(Build.SourcesDirectory)/tfplanfile -lock=false'
+        commandOptions: '-out=$(Build.SourcesDirectory)/tfplanfile -var-file=$(Build.SourcesDirectory)/terraform.tfvars -lock=false'
         
     - task: ArchiveFiles@2
       displayName: Archive files
