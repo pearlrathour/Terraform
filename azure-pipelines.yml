@@ -28,7 +28,7 @@ stages:
         backendAzureRmStorageAccountName: 'demostorageaccount197368'
         backendAzureRmContainerName: 'prod-tfstate'
         backendAzureRmKey: 'prod.terraform.tfstate'
-        commandOptions: '-reconfigure'
+        commandOptions: '-reconfigure -migrate-state'
       
     - task: TerraformTask@5
       displayName: Tf fmt
@@ -63,6 +63,9 @@ stages:
         command: 'plan'
         environmentServiceNameAzureRM: 'AzureServiceConnectionWIF'
         commandOptions: '-out=$(Build.SourcesDirectory)/tfplanfile -lock=false'
+      env:
+        TF_VAR_prefix: demo
+        TF_VAR_location: "Central India"
         
     - task: ArchiveFiles@2
       displayName: Archive files
