@@ -28,7 +28,7 @@ stages:
         backendAzureRmStorageAccountName: 'demostorageaccount197368'
         backendAzureRmContainerName: 'prod-tfstate'
         backendAzureRmKey: 'prod.terraform.tfstate'
-        commandOptions: '-reconfigure -migrate-state'
+        commandOptions: '-reconfigure'
       
     - task: TerraformTask@5
       displayName: Tf fmt
