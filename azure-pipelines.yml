@@ -48,6 +48,13 @@ stages:
         backendAzureRmContainerName: 'prod-tfstate'
         backendAzureRmKey: 'prod.terraform.tfstate'
 
+    - task: CmdLine@2
+      displayName: Debug TF_VAR variables
+      inputs:
+        script: |
+          echo "Listing TF_VAR_* variables..."
+          env | grep TF_VAR_
+
     - task: TerraformTask@5
       displayName: Tf plan
       inputs:
