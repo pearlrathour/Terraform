@@ -18,6 +18,18 @@ stages:
       inputs:
         terraformVersion: '1.15.3' 
 
+    - task: AzureCLI@2
+      displayName: 'Ensure tfstate container exists'
+      inputs:
+        azureSubscription: 'AzureServiceConnectionWIF'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az storage container create \
+            --account-name demostorageaccount197368 \
+            --name prod-tfstate \
+            --auth-mode login
+
     - task: TerraformTask@5
       displayName: Tf init
       inputs:
