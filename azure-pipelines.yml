@@ -29,6 +29,15 @@ stages:
         backendAzureRmContainerName: 'prod-tfstate'
         backendAzureRmKey: 'prod.terraform.tfstate'
         commandOptions: '-reconfigure'
+
+    - task: CmdLine@2
+      displayName: 'Unset old TF_VAR variables'
+      inputs:
+        script: |
+          unset TF_VAR_CLIENT_ID
+          unset TF_VAR_CLIENT_SECRET
+          unset TF_VAR_SUBSCRIPTION_ID
+          unset TF_VAR_TENANT_ID
       
     - task: TerraformTask@5
       displayName: Tf fmt
