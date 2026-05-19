@@ -30,6 +30,19 @@ stages:
             --name prod-tfstate \
             --auth-mode login
 
+    - task: Bash@3
+      displayName: 'Clear ARM_* and TF_VAR_* variables'
+      inputs:
+        targetType: 'inline'
+        script: |
+          for var in $(env | grep ARM_ | cut -d= -f1); do
+            unset $var
+          done
+          for var in $(env | grep TF_VAR_ | cut -d= -f1); do
+            unset $var
+          done
+          echo "Environment cleaned"
+
     - task: TerraformTask@5
       displayName: Tf init
       inputs:
