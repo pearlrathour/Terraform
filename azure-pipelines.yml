@@ -23,7 +23,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        backendServiceArm: 'AzureServiceConnection'
+        backendServiceArm: 'AzureServiceConnectionWIF'
         backendAzureRmResourceGroupName: 'demo-resources'
         backendAzureRmStorageAccountName: 'demostorageaccount197368'
         backendAzureRmContainerName: 'prod-tfstate'
@@ -36,7 +36,7 @@ stages:
         command: 'custom'
         outputTo: 'console'
         customCommand: 'fmt'
-        environmentServiceNameAzureRM: 'AzureServiceConnection'
+        environmentServiceNameAzureRM: 'AzureServiceConnectionWIF'
 
     - task: TerraformTask@5
       displayName: Tf validate
@@ -60,7 +60,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        environmentServiceNameAzureRM: 'AzureServiceConnection'
+        environmentServiceNameAzureRM: 'AzureServiceConnectionWIF'
         commandOptions: '-out=$(Build.SourcesDirectory)/tfplanfile -lock=false'
         
     - task: ArchiveFiles@2
