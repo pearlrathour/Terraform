@@ -89,6 +89,15 @@ stages:
         script: |
           echo "Listing TF_VAR_* variables..."
           env | grep TF_VAR_
+    
+    - task: Bash@3
+      displayName: 'Search repo for client_id'
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo "Searching for client_id references..."
+          grep -R "client_id" .
+
 
     - task: TerraformTask@5
       displayName: Tf plan
