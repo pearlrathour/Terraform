@@ -18,31 +18,6 @@ stages:
       inputs:
         terraformVersion: '1.15.3' 
 
-    - task: AzureCLI@2
-      displayName: 'Ensure tfstate container exists'
-      inputs:
-        azureSubscription: 'AzureServiceConnectionWIF'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az storage container create \
-            --account-name demostorageaccount197368 \
-            --name prod-tfstate \
-            --auth-mode login
-
-    - task: Bash@3
-      displayName: 'Clear ARM_* and TF_VAR_* variables'
-      inputs:
-        targetType: 'inline'
-        script: |
-          for var in $(env | grep ARM_ | cut -d= -f1); do
-            unset $var
-          done
-          for var in $(env | grep TF_VAR_ | cut -d= -f1); do
-            unset $var
-          done
-          echo "Environment cleaned"
-
     - task: TerraformTask@5
       displayName: Tf init
       inputs:
@@ -54,15 +29,6 @@ stages:
         backendAzureRmContainerName: 'prod-tfstate'
         backendAzureRmKey: 'prod.terraform.tfstate'
         commandOptions: '-reconfigure'
-
-    - task: CmdLine@2
-      displayName: 'Unset old TF_VAR variables'
-      inputs:
-        script: |
-          unset TF_VAR_CLIENT_ID
-          unset TF_VAR_CLIENT_SECRET
-          unset TF_VAR_SUBSCRIPTION_ID
-          unset TF_VAR_TENANT_ID
       
     - task: TerraformTask@5
       displayName: Tf fmt
@@ -82,22 +48,6 @@ stages:
         backendAzureRmStorageAccountName: 'demostorageaccount197368'
         backendAzureRmContainerName: 'prod-tfstate'
         backendAzureRmKey: 'prod.terraform.tfstate'
-
-    - task: CmdLine@2
-      displayName: Debug TF_VAR variables
-      inputs:
-        script: |
-          echo "Listing TF_VAR_* variables..."
-          env | grep TF_VAR_
-    
-    - task: Bash@3
-      displayName: 'Search repo for client_id'
-      inputs:
-        targetType: 'inline'
-        script: |
-          echo "Searching for client_id references..."
-          grep -R "client_id" .
-
 
     - task: TerraformTask@5
       displayName: Tf plan
